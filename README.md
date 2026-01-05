@@ -160,7 +160,7 @@ Check the status of a redeem request.
 
 ### GET /api/cron/treasury-bot
 
-Treasury bot cron job (runs every 5 minutes via Vercel Cron).
+Treasury bot endpoint for processing pending redeem requests. **Manual trigger only** (no automated cron on Vercel Hobby plan).
 
 **Headers:**
 ```
@@ -181,6 +181,13 @@ Authorization: Bearer YOUR_CRON_SECRET
   ],
   "timestamp": "2024-01-06T00:00:00.000Z"
 }
+```
+
+**Manual Trigger:**
+```bash
+# Trigger treasury bot manually
+curl https://your-domain.vercel.app/api/cron/treasury-bot \
+  -H "Authorization: Bearer YOUR_CRON_SECRET"
 ```
 
 ## 🔧 Deployment to Vercel
@@ -216,9 +223,7 @@ vercel env add TREASURY_PRIVATE_KEY
 # ... etc
 ```
 
-### 5. Verify Cron Job
 
-Go to Vercel Dashboard → Your Project → Settings → Cron Jobs to verify the treasury bot cron job is configured (from `vercel.json`).
 
 ## 🧪 Testing
 
@@ -260,10 +265,15 @@ curl -X POST http://localhost:3000/api/redeem/treasury-assisted \
 curl http://localhost:3000/api/redeem/status/1
 ```
 
-### Test Treasury Bot (Local)
+### Test Treasury Bot (Manual Trigger)
 
 ```bash
+# Local
 curl http://localhost:3000/api/cron/treasury-bot \
+  -H "Authorization: Bearer YOUR_CRON_SECRET"
+
+# Production
+curl https://your-domain.vercel.app/api/cron/treasury-bot \
   -H "Authorization: Bearer YOUR_CRON_SECRET"
 ```
 
@@ -297,11 +307,12 @@ curl http://localhost:3000/api/cron/treasury-bot \
 - Verify contract address is correct
 - Check gas limits
 
-### Cron job not running
+### Treasury bot not processing
 
-- Verify `vercel.json` is deployed
-- Check Vercel dashboard for cron logs
+- Treasury bot requires **manual trigger** (no automated cron on Hobby plan)
+- Trigger manually via: `curl https://your-domain.vercel.app/api/cron/treasury-bot -H "Authorization: Bearer YOUR_CRON_SECRET"`
 - Verify `CRON_SECRET` is set
+- For automated processing, consider GitHub Actions or upgrade to Vercel Pro
 
 ## 📚 References
 
