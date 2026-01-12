@@ -6,13 +6,13 @@ Backend API for AuRoom protocol to handle IDRX → IDR fiat redemption. Built wi
 
 This backend integrates with:
 - **IDRX.org API** for processing redeem requests
-- **BorrowingProtocolV2** smart contract on Lisk Sepolia
+- **BorrowingProtocolV2** smart contract on Base Sepolia
 - **Treasury bot** (Vercel cron job) for automated processing
 
 ## 📁 Project Structure
 
 ```
-auroom-lisk-be/
+auroom-base-be/
 ├── app/
 │   └── api/
 │       ├── redeem/
@@ -57,12 +57,12 @@ Required environment variables:
 - `IDRX_API_KEY` - Your IDRX API key
 - `IDRX_SECRET_KEY` - Your IDRX secret key
 - `IDRX_API_URL` - IDRX API URL (https://idrx.co/api)
-- `LISK_SEPOLIA_RPC` - Lisk Sepolia RPC URL
+- `BASE_SEPOLIA_RPC` - Base Sepolia RPC URL
 - `BORROWING_PROTOCOL_ADDRESS` - BorrowingProtocolV2 contract address
 - `TREASURY_PRIVATE_KEY` - Treasury wallet private key
-- `IDRX_TOKEN_ADDRESS` - IDRX token address on Lisk Sepolia
+- `IDRX_TOKEN_ADDRESS` - IDRX/MockIDRX token address on Base Sepolia
 - `CRON_SECRET` - Secret for cron job authentication
-- `NETWORK_CHAIN_ID` - Network chain ID (4202 for Lisk Sepolia)
+- `NETWORK_CHAIN_ID` - Network chain ID (84532 for Base Sepolia)
 
 ### 3. Run Development Server
 
@@ -105,7 +105,7 @@ Submit a self-service redeem request (≤250M IDR).
   "message": "success",
   "data": {
     "id": 1000,
-    "chainId": 4202,
+    "chainId": 84532,
     "userId": 999,
     "requester": "JOHN SMITH",
     "txHash": "0xa38c057222872d8e3d106ab5f9b86b7d1d6ade72d485eb01366650e45c8a65d1",
@@ -332,12 +332,36 @@ curl https://your-domain.vercel.app/api/cron/treasury-bot \
 - Verify `CRON_SECRET` is set
 - For automated processing, consider GitHub Actions or upgrade to Vercel Pro
 
+## 🌐 Network Information
+
+| Property | Value |
+|----------|-------|
+| Network | Base Sepolia |
+| Chain ID | 84532 |
+| RPC URL | https://sepolia.base.org |
+| Explorer | https://sepolia.basescan.org |
+| Native Token | ETH |
+
+### Deployed Contracts (Base Sepolia)
+
+| Contract | Address |
+|----------|---------|
+| BorrowingProtocolV2 | `0x3A1229F6D51940DBa65710F9F6ab0296FD56718B` |
+| MockIDRX | `0x998ceb700e57f535873D189a6b1B7E2aA8C594EB` |
+
+### Future Reference (Base Mainnet)
+
+| Contract | Address |
+|----------|---------|
+| IDRX Token | `0x18Bc5bcC660cf2B9cE3cd51a404aFe1a0cBD3C22` |
+
 ## 📚 References
 
 - [IDRX API Documentation](https://docs.idrx.co/integration/processing-redeem-idrx-requests.md)
 - [Vercel Cron Jobs](https://vercel.com/docs/cron-jobs)
 - [Viem Documentation](https://viem.sh/)
 - [Next.js API Routes](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
+- [Base Documentation](https://docs.base.org/)
 
 ## 📄 License
 
